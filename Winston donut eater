@@ -1,0 +1,96 @@
+/**Hello and wellcome to "Winston eating donuts EXPLAINED". In this program I have comented every single line of code, so you can know exactly what everything does and you (and also me can understand this program**/
+//If you want to stop the program to read the code, just type "3" on line #3
+
+imageMode(CENTER);//sets the mode of imagas to the center
+var dough=color(237, 154, 86);//the color of the donut
+var frost=color(247, 136, 241);//the color of the frosting for the donuts
+var sky=color(0, 255, 208);//the color of the sky
+var center=color(0,255,208);//the color of the center of the donuts
+var donuts=0;//how many donuts winston has eaten
+var chompTime=0;//the timer for the word "CHOMP"
+var timeLimit=50;//the amount of time the word "CHOMP" sticks around for
+var donutLimit=250;//The amount of donuts that winston eats before he blows up
+var dy=0;//the y position of the donuts
+var wy=345;//the y positon of winstion
+var dSpeed=1;//the speed that the donuts fall
+var dFaster=0.5;//the speed that donuts accelerate
+var cloud=function(x,y){
+    noStroke();//makes it so that shapes have no outline
+    fill(255, 255, 255);//makes the fill color White
+    ellipse(x,y,50,50);//draws a 50 by 50 circle at x and y
+    ellipse(x+30,y+10,50,50);//draws another 50 by 50 circle at x+30 & y+10
+    ellipse(x-35,y+10,50,50);//draws another 50 by 50 circle at x-35 & y+10
+    ellipse(x,y+15,50,50);//draws another 50 by 50 circle at x & y+15
+};//draws a cloud
+var back=function(){
+    background(sky);//Sets the background color to the variable 'sky'
+    fill(79, 28, 28);//sets the fill color to the color of dirt
+    noStroke();//makes it so that shapes have no outline
+    rect(-2,285,405,38);//makes a rectangle at -2,285 with the width of 405 and a lenght of 38
+    for(var x=-21;x<400;x+=99){//Creates the variable x, will repeat this block of code inside the 'for' loop until x is 
+        image(getImage("cute/PlainBlock"),x,354);
+    }
+    for(var x=-22;x<400;x+=115){
+    image(getImage("cute/TreeTall"),x,237);
+    }
+    for(var x=45;x<400;x+=143){
+    cloud(x,45);
+    }
+    fill(0, 0, 0);
+    text("Winston likes donuts!",127,154);
+};//draws the background
+var winston=function(x,y,size){
+    image(getImage("creatures/Winston"),x,y,size,size);//190,268
+    };//sraws winston
+var donut=function(x,y){
+    fill(dough);
+    ellipse(x,y,60,60);
+    fill(frost);
+    ellipse(x,y,55,55);
+    fill(dough);
+    ellipse(x,y,15,15);
+    fill(center);
+    ellipse(x,y,10,10);
+};//draws the donut
+var boom=function(){
+        background(255, 0, 0);
+        textSize(100);
+        text("BOOM!!",16,200);
+};//blows up winston
+back();//draws the backround
+winston(155,290,89);//draws winston at 155, 290, with his size being 89 
+draw= function() {
+    back();//draws the background
+    winston(200,wy,100);//draws winston at 200, wy, with the size of 100
+    fill(0,0,0);//sets the fill to black
+    text("Donuts eaten="+donuts,300,10);//shows how many donuts have been eaten
+    if(dy<wy){//if the y position of the donut is not as much as the y pos of winston
+        dy+=dSpeed;//moves the donut down with the speed of dSpeed
+        donut(200,dy);//draws the donut
+    }else if(dy>=wy){//if the y pos of the donut is more than or = to winston's y pos
+        dy=0;//set the y pos of the donut to 0
+        fill(0,0,0);//fill with black
+        text("CHOMP!",200,wy);//write the word "CHOMP!" right next to winston's mouth
+        chompTime+=1;//change the chomp timer by + 1
+        center=color(sky);//set the center of the donut to the color of the sky
+        dSpeed+=dFaster;//Make the donut go dFaster faster
+        donuts++;//Change the amount of donuts winston has eaten by +1
+        
+    }
+    if(dy>wy-50){// if the y pos of the donut is past the top of winston's head
+        center=color(242, 255, 0);//Change the color of the center of the donut to yellow
+    }
+    if(chompTime>0&chompTime<timeLimit){//If the timer is on and it is less than timeLimit
+        fill(0,0,0);//set the color to black
+        text("CHOMP!",200,wy);//set the word "CHOMP!" right next to winston's mouth
+        chompTime+=1;//Change the timer (chompTime) by +1
+        
+    }else if(chompTime>=timeLimit){//If the timer (chompTime) is at the time limit
+        chompTime=0;//turn off the timer
+    }
+    if(donuts>=donutLimit){//if winston has eaten more donuts than the donut limit
+        boom();//Blow up winston
+    }
+    
+    
+};
